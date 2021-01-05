@@ -1,0 +1,113 @@
+#pragma hdrstop
+#pragma argsused
+
+#ifdef _WIN32
+#include <tchar.h>
+#else
+  typedef char _TCHAR;
+  #define _tmain main
+#endif
+using namespace std;
+#include <iostream>
+#include <conio.h>
+#include <fstream>
+
+struct Train
+{
+	char dayrtime[10];
+	char destination[20];
+	float deptime;
+	int sites;
+}
+
+void stcreat(char destination[], Bustrip* &strct)
+{
+	strct = new Bustrip[7];
+	for (int i = 0; i < 7; i++)
+	{
+		strct[i].number = i+1;
+		strct[i].daytime[0] = '2';
+		strct[i].daytime[2] = '.';
+		strct[i].daytime[3] = '0';
+		strct[i].daytime[4] = '8';
+		strct[i].daytime[5] = '.';
+		strct[i].daytime[6] = '2';
+		strct[i].daytime[7] = '0';
+		strct[i].daytime[8] = '6';
+		strct[i].daytime[9] = '1';
+		strct[i].daytime[10] = '\0';
+		for (i = 0; i < 7; i++)
+		{
+			switch (i)
+			{
+				case 0:
+				strct[i].daytime[1] = '1';break;
+				case 1:
+				strct[i].daytime[1] = '2';break;
+				case 2:
+				strct[i].daytime[1] = '3';break;
+				case 3:
+				strct[i].daytime[1] = '4';break;
+				case 4:
+				strct[i].daytime[1] = '5';break;
+				case 5:
+				strct[i].daytime[1] = '6';break;
+				case 6:
+				strct[i].daytime[1] = '7';break;
+			}
+		}
+		strcpy(strct[i].destination, destination);
+		switch (rand() % 6)
+		{
+			case 0: strct[i].sites = 10 ;break;
+			case 1: strct[i].sites = 13;break;
+			case 2: strct[i].sites = 15;break;
+			case 3: strct[i].sites = 17;break;
+			case 4: strct[i].sites = 19;break;
+			case 5: strct[i].sites = 21;break;
+			case 6: strct[i].sites = 23;break;
+		}
+		switch (rand() % 5)
+		{
+			case 0: strct[i].deptime = 11.00;break;
+			case 1: strct[i].deptime = 12.30;break;
+			case 2: strct[i].deptime = 13.30;break;
+			case 3: strct[i].deptime = 14.00;break;
+			case 4: strct[i].deptime = 15.00;break;
+			case 5: strct[i].deptime = 15.30;break;
+		}
+	}
+}
+
+void filecr(Train* strct)
+{
+	ofstream outfile ("trains.txt");
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			outfile << strct[i].daytime[j];
+		}
+		outfile << ' ';
+		for (int j = 0; strct[i].destination[j] != '\0'; j++)
+		{
+			outfile << strct[i].destination[j];
+		}
+		outfile << ' ';
+		outfile << strct[i].deptime;
+		outfile << strct[i].sites;
+	}
+}
+
+
+int _tmain()
+{
+	srand(time(NULL));
+	Train user;
+	Train train;
+	printf("Hello, where are you going to go?");
+	scanf("%s", user.destination);
+	stcreat(user.destination, train);
+	getch();
+	return 0;
+}
